@@ -50,12 +50,21 @@ select_boards()
     local call=${1}
 
     boards=("OrangePi_PC2" "OrangePi_A64" "OrangePi_ZERO" "OrangePi_H3" "OrangePi_LITE2" "OrangePi_H3_ZEROPLUS2" "OrangePi_3" "OrangePi_RK3399" "OrangePi_ONEPLUS")
+    
+    if [[ ! -z "PLATFORM" ]]; then
+        if [[ ! " ${boards[@]} " =~ " ${PLATFORM} " ]]; then
+            echo -e "Not supported board ${PLATFORM}"
+            exit 1
+        fi
+        return 0
+    fi
 
     printf "All available boards:\n"
     for var in ${boards[@]} ; do
         printf "%4d. %s\n" $cnt ${boards[$cnt]}
         ((cnt+=1))
     done
+
 
     while true ; do
         read -p "Choice: " choice
