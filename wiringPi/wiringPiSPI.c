@@ -27,7 +27,6 @@
 #include <fcntl.h>
 #include <errno.h>
 #include <string.h>
-#include <stdio.h>
 #include <sys/ioctl.h>
 #include <asm/ioctl.h>
 #include <linux/spi/spidev.h>
@@ -40,6 +39,8 @@
 // The SPI bus parameters
 //	Variables as they need to be passed as pointers later on
 
+static const char       *spiDev0  = "/dev/spidev0.0" ;
+static const char       *spiDev1  = "/dev/spidev1.0" ;
 static const uint8_t     spiBPW   = 8 ;
 static const uint16_t    spiDelay = 0 ;
 
@@ -96,23 +97,14 @@ int wiringPiSPIDataRW (int channel, unsigned char *data, int len)
  *********************************************************************************
  */
 
-void getDevice(char* spidev, int channel, int port) {
-    sprintf(spidev, "/dev/spidev%i.%i", channel, port);
-}
-
-int wiringPiSPISetupMode (int channel, int port, int speed, int mode)
+int wiringPiSPISetupMode (int channel, int speed, int mode)
 {
   int fd ;
 
   mode    &= 3 ;	// Mode is 0, 1, 2 or 3
   channel &= 1 ;	// Channel is 0 or 1
 
-  static char spidev[14];
-
-  getDevice(spidev, channel, port);
-  printf("Opening device %s\n", spidev); 
-
-  if ((fd = open (spidev, O_RDWR)) < 0)
+  if ((fd = open (channel == 0 ? spiDev0 : spiDev1, O_RDWR)) < 0)
     return wiringPiFailure (WPI_ALMOST, "Unable to open SPI device: %s\n", strerror (errno)) ;
 
   spiSpeeds [channel] = speed ;
@@ -141,5 +133,5 @@ int wiringPiSPISetupMode (int channel, int port, int speed, int mode)
 
 int wiringPiSPISetup (int channel, int speed)
 {
-  return wiringPiSPISetupMode (channel, 0, speed, 0) ;
+  return wiringPiSPISetupMode (channel, speed, 0) ;
 }
