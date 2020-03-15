@@ -77,11 +77,11 @@ const char *piModelNames[6] =
     "Compute Module",
 #ifdef CONFIG_ORANGEPI_2G_IOT
 	"OrangePi 2G-IOT",
-#elif CONFIG_ORANGEPI_PC2
+#elif CONFIG_ORANGEPI_PC2 || CONFIG_ORANGEPI_ZEROPLUS2_H5 || CONFIG_ORANGEPI_ZEROPLUS || CONFIG_ORANGEPI_PRIME
 	"OrangePi PC2",
 #elif CONFIG_ORANGEPI_A64
 	"OrangePi Win/Winplus",
-#elif CONFIG_ORANGEPI_H3 || CONFIG_ORANGEPI_H3_ZEROPLUS2
+#elif CONFIG_ORANGEPI_H3 || CONFIG_ORANGEPI_ZEROPLUS2_H3
 	"OrangePi H3 family",
 #elif CONFIG_ORANGEPI_ZERO
 	"OrangePi Zero",
@@ -445,12 +445,12 @@ static void doSerialTest (UNU int argc, char *argv [])
 
 	if ((fd = serialOpen (port, 115200)) < 0)	{
 		fprintf (stderr, "Unable to open serial device: %s\n", strerror (errno)) ;
-		return 1 ;
+		return;
 	}
 
 	if (wiringPiSetup () == -1)	{
 		fprintf (stdout, "Unable to start wiringPi: %s\n", strerror (errno)) ;
-		return 1 ;
+		return;
 	}
 
 	nextTime = millis () + 300 ;
@@ -473,7 +473,7 @@ static void doSerialTest (UNU int argc, char *argv [])
 	}
 
 	printf ("\n") ;
-	return 0 ;
+	return;
 }
 
 
@@ -1401,7 +1401,6 @@ static void doPwmClock (int argc, char *argv [])
 
 static void doVersion (char *argv [])
 {
-  int model, rev, mem, maker, warranty ;
   struct stat statBuf ;
   char name [80] ;
   FILE *fd ;

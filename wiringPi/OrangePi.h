@@ -30,7 +30,7 @@
 
 #endif /* CONFIG_ORANGEPI_2G_IOT */
 
-#ifdef CONFIG_ORANGEPI_PC2
+#if CONFIG_ORANGEPI_PC2 || CONFIG_ORANGEPI_ZEROPLUS || CONFIG_ORANGEPI_ZEROPLUS2_H5 || CONFIG_ORANGEPI_PRIME
 /************** OrangePi H5 ***********************/
 #define GPIOA_BASE                         (0x01C20000)
 #define GPIO_NUM                           (0x40)
@@ -39,10 +39,11 @@
 #define GPIOL_BASE                         (0x01F02c00)
 #define GPIOL_BASE_MAP                     (0x01F02000)  
 #define MAP_SIZE_L                         (4096 * 2)
+#define GPIO_PWM_OP			   (0x01C21000)
 #endif
 
 /************** OrangePi A64 ***********************/
-#ifdef CONFIG_ORANGEPI_A64
+#ifdef CONFIG_ORANGEPI_WIN
 #define GPIOA_BASE                         (0x01C20000)
 #define GPIO_NUM                           (0x40)
 #define GPIO_BASE_MAP                      (0x01C20800)
@@ -50,10 +51,11 @@
 #define GPIOL_BASE                         (0x01F02c00)
 #define GPIOL_BASE_MAP                     (0x01F02000)  
 #define MAP_SIZE_L                         (4096 * 2)
+#define GPIO_PWM_OP			   (0x01C21000)
 #endif
 
 /************** OrangePi H3 ***********************/
-#if CONFIG_ORANGEPI_H3 || CONFIG_ORANGEPI_H3_ZEROPLUS2
+#if CONFIG_ORANGEPI_H3 || CONFIG_ORANGEPI_ZEROPLUS2_H3 || CONFIG_ORANGEPI_ZERO
 #define GPIOA_BASE                         (0x01C20000)
 #define GPIO_NUM                           (0x40)
 #define GPIO_BASE_MAP                      (0x01C20800)
@@ -61,7 +63,7 @@
 #define GPIOL_BASE                         (0x01F02c00)
 #define GPIOL_BASE_MAP                     (0x01F02000)  
 #define MAP_SIZE_L                         (4096 * 2)
-#define GPIO_PWM_OP						   (0x01C21000)
+#define GPIO_PWM_OP			   (0x01C21000)
 #endif
 
 /*********** OrangePi LITE2/OnePlus/PC3 *************/
@@ -73,11 +75,11 @@
 #define GPIOL_BASE                         (0x07022000)
 #define GPIOL_BASE_MAP                     (0x07022000)  
 #define MAP_SIZE_L                         (4096 * 1)
-#define GPIO_PWM_OP						   (0x0300A000)
+#define GPIO_PWM_OP			   (0x0300A000)
 #endif
 
 /*********** OrangePi RK3399 *************/
-#ifdef CONFIG_ORANGEPI_RK3399
+#if CONFIG_ORANGEPI_RK3399 || CONFIG_ORANGEPI_4
 
 #define GPIO1_BASE 							0xff730000
 #define GPIO2_BASE 							0xff780000
@@ -201,13 +203,13 @@ extern const char *piModelNames[6];
 
 #ifdef CONFIG_ORANGEPI_2G_IOT
 extern int ORANGEPI_PIN_MASK[4][32];
-#elif CONFIG_ORANGEPI_PC2
+#elif CONFIG_ORANGEPI_PC2 || CONFIG_ORANGEPI_PRIME
 extern int ORANGEPI_PIN_MASK[9][32];
-#elif CONFIG_ORANGEPI_A64
+#elif CONFIG_ORANGEPI_WIN
 extern int ORANGEPI_PIN_MASK[12][32];
 #elif CONFIG_ORANGEPI_H3
 extern int ORANGEPI_PIN_MASK[9][32];
-#elif CONFIG_ORANGEPI_ZERO || CONFIG_ORANGEPI_H3_ZEROPLUS2
+#elif CONFIG_ORANGEPI_ZERO || CONFIG_ORANGEPI_ZEROPLUS2_H3 || CONFIG_ORANGEPI_ZEROPLUS || CONFIG_ORANGEPI_ZEROPLUS2_H5
 extern int ORANGEPI_PIN_MASK[12][32];
 #elif CONFIG_ORANGEPI_RK3399
 extern int ORANGEPI_PIN_MASK[5][32];

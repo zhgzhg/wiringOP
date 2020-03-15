@@ -39,7 +39,7 @@ DEBUG	= -O2
 CC	= gcc
 INCLUDE	= -I.
 DEFS	= -D_GNU_SOURCE
-CFLAGS	= $(DEBUG) $(DEFS) -Wformat=2 -Wall -Wextra -Winline $(INCLUDE) -pipe -fPIC
+CFLAGS	= $(DEBUG) $(DEFS) -Wformat=2 -Wextra -Winline $(INCLUDE) -pipe -fPIC
 #CFLAGS	= $(DEBUG) $(DEFS) -Wformat=2 -Wall -Wextra -Wconversion -Winline $(INCLUDE) -pipe -fPIC
 
 LIBS    = -lm -lpthread -lrt -lcrypt
@@ -47,12 +47,15 @@ LIBS    = -lm -lpthread -lrt -lcrypt
 ifeq ($(PLATFORM),)
   #PLATFORM = OrangePi_2G-IOT
   #PLATFORM = OrangePi_PC2
-  #PLATFORM = OrangePi_A64
+  #PLATFORM = OrangePi_PRIME
+  #PLATFORM = OrangePi_ZEROPLUS
+  #PLATFORM = OrangePi_WIN
   #PLATFORM = OrangePi_H3
   #PLATFORM = OrangePi_LITE2
   PLATFORM = OrangePi_ONEPLUS
   #PLATFORM = OrangePi_ZERO
-  #PLATFORM = OrangePi_H3_ZEROPLUS2
+  #PLATFORM = OrangePi_ZEROPLUS2_H3
+  #PLATFORM = OrangePi_ZEROPLUS2_H5
   #PLATFORM = OrangePi_3
   #PLATFORM = OrangePi_RK3399
 endif
@@ -67,27 +70,32 @@ EXTRA_CFLAGS = -DCONFIG_ORANGEPI_PC2
 EXTRA_CFLAGS += -DCONFIG_ORANGEPI
 endif
 
-ifeq ($(PLATFORM), OrangePi_A64)
-EXTRA_CFLAGS = -DCONFIG_ORANGEPI_A64
+ifeq ($(PLATFORM), OrangePi_PRIME)
+EXTRA_CFLAGS = -DCONFIG_ORANGEPI_PRIME
 EXTRA_CFLAGS += -DCONFIG_ORANGEPI
 endif
 
-ifeq ($(PLATFORM), OrangePi_H3)
+ifeq ($(PLATFORM), OrangePi_ZEROPLUS)
+EXTRA_CFLAGS = -DCONFIG_ORANGEPI_ZEROPLUS
+EXTRA_CFLAGS += -DCONFIG_ORANGEPI
+endif
+
+ifneq ($(findstring $(PLATFORM), "OrangePi_WIN" "OrangePi_WINPLUS"),)
+EXTRA_CFLAGS = -DCONFIG_ORANGEPI_WIN
+EXTRA_CFLAGS += -DCONFIG_ORANGEPI
+endif
+
+ifneq ($(findstring $(PLATFORM), "OrangePi_ONE_H3" "OrangePi_LITE_H3" "OrangePi_PC" "OrangePi_PLUS" "OrangePi_PCPLUS" "OrangePi_PLUS2E"),)
 EXTRA_CFLAGS = -DCONFIG_ORANGEPI_H3
 EXTRA_CFLAGS += -DCONFIG_ORANGEPI
 endif
 
-ifeq ($(PLATFORM), OrangePi_ZERO)
+ifneq ($(findstring $(PLATFORM), "OrangePi_ZERO" "OrangePi_R1"),)
 EXTRA_CFLAGS = -DCONFIG_ORANGEPI_ZERO
 EXTRA_CFLAGS += -DCONFIG_ORANGEPI
 endif
 
-ifeq ($(PLATFORM), OrangePi_LITE2)
-EXTRA_CFLAGS = -DCONFIG_ORANGEPI_LITE2
-EXTRA_CFLAGS += -DCONFIG_ORANGEPI
-endif
-
-ifeq ($(PLATFORM), OrangePi_ONEPLUS)
+ifneq ($(findstring $(PLATFORM), "OrangePi_ONEPLUS" "OrangePi_LITE2"),)
 EXTRA_CFLAGS = -DCONFIG_ORANGEPI_LITE2
 EXTRA_CFLAGS += -DCONFIG_ORANGEPI
 endif
@@ -97,13 +105,23 @@ EXTRA_CFLAGS = -DCONFIG_ORANGEPI_3
 EXTRA_CFLAGS += -DCONFIG_ORANGEPI
 endif
 
-ifeq ($(PLATFORM), OrangePi_H3_ZEROPLUS2) 
-EXTRA_CFLAGS = -DCONFIG_ORANGEPI_H3_ZEROPLUS2
+ifeq ($(PLATFORM), OrangePi_ZEROPLUS2_H3) 
+EXTRA_CFLAGS = -DCONFIG_ORANGEPI_ZEROPLUS2_H3
+EXTRA_CFLAGS += -DCONFIG_ORANGEPI
+endif
+
+ifeq ($(PLATFORM), OrangePi_ZEROPLUS2_H5) 
+EXTRA_CFLAGS = -DCONFIG_ORANGEPI_ZEROPLUS2_H5
 EXTRA_CFLAGS += -DCONFIG_ORANGEPI
 endif
 
 ifeq ($(PLATFORM), OrangePi_RK3399)
 EXTRA_CFLAGS = -DCONFIG_ORANGEPI_RK3399
+EXTRA_CFLAGS += -DCONFIG_ORANGEPI
+endif
+
+ifeq ($(PLATFORM), OrangePi_4)
+EXTRA_CFLAGS = -DCONFIG_ORANGEPI_4
 EXTRA_CFLAGS += -DCONFIG_ORANGEPI
 endif
 
@@ -136,23 +154,27 @@ ifeq ($(PLATFORM), OrangePi_PC2)
 SRC += OrangePi.c
 endif
 
-ifeq ($(PLATFORM), OrangePi_A64)
+ifeq ($(PLATFORM), OrangePi_PRIME)
 SRC += OrangePi.c
 endif
 
-ifeq ($(PLATFORM), OrangePi_H3)
+ifeq ($(PLATFORM), OrangePi_ZEROPLUS)
 SRC += OrangePi.c
 endif
 
-ifeq ($(PLATFORM), OrangePi_ZERO)
+ifneq ($(findstring $(PLATFORM), "OrangePi_WIN" "OrangePi_WINPLUS"),)
 SRC += OrangePi.c
 endif
 
-ifeq ($(PLATFORM), OrangePi_LITE2)
+ifneq ($(findstring $(PLATFORM), "OrangePi_ONE_H3" "OrangePi_LITE_H3" "OrangePi_PC" "OrangePi_PLUS" "OrangePi_PCPLUS" "OrangePi_PLUS2E"),)
 SRC += OrangePi.c
 endif
 
-ifeq ($(PLATFORM), OrangePi_ONEPLUS)
+ifneq ($(findstring $(PLATFORM), "OrangePi_ZERO" "OrangePi_R1"),)
+SRC += OrangePi.c
+endif
+
+ifneq ($(findstring $(PLATFORM), "OrangePi_ONEPLUS" "OrangePi_LITE2"),)
 SRC += OrangePi.c
 endif
 
@@ -160,11 +182,19 @@ ifeq ($(PLATFORM), OrangePi_3)
 SRC += OrangePi.c
 endif
 
-ifeq ($(PLATFORM), OrangePi_H3_ZEROPLUS2)
+ifeq ($(PLATFORM), OrangePi_ZEROPLUS2_H3)
+SRC += OrangePi.c
+endif
+
+ifeq ($(PLATFORM), OrangePi_ZEROPLUS2_H5)
 SRC += OrangePi.c
 endif
 
 ifeq ($(PLATFORM), OrangePi_RK3399)
+SRC += OrangePi.c
+endif
+
+ifeq ($(PLATFORM), OrangePi_4)
 SRC += OrangePi.c
 endif
 
@@ -270,3 +300,5 @@ wpiExtensions.o: mcp23s17.h sr595.h pcf8574.h pcf8591.h mcp3002.h mcp3004.h
 wpiExtensions.o: mcp4802.h mcp3422.h max31855.h max5322.h ads1115.h sn3218.h
 wpiExtensions.o: drcSerial.h pseudoPins.h bmp180.h htu21d.h ds18b20.h
 wpiExtensions.o: wpiExtensions.h
+
+
