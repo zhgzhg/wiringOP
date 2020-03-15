@@ -22,6 +22,8 @@
  ***********************************************************************
  */
 
+#define HAS_NONSTD_WPI_SPI_FUNCS 1
+
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -29,6 +31,7 @@ extern "C" {
 int wiringPiSPIGetFd     (int channel) ;
 int wiringPiSPIDataRW    (int channel, unsigned char *data, int len) ;
 int wiringPiSPISetupMode (int channel, int speed, int mode) ;
+int wiringPiSPISetupModePort(int channel, int speed, int mode, int port) ;
 int wiringPiSPISetup     (int channel, int speed) ;
 
 #ifdef __cplusplus
