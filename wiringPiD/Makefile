@@ -69,19 +69,19 @@ tags:	$(SRC)
 install: wiringpid
 	$Q echo "[Install]"
 	$Q mkdir -p		$(DESTDIR)$(PREFIX)/sbin
-	$Q cp wiringpid		$(DESTDIR)$(PREFIX)/sbin
+	$Q cp wiringpid		$(DESTDIR)$(PREFIX)/sbin/
 	$Q chown root.root	$(DESTDIR)$(PREFIX)/sbin/wiringpid
 
 #	$Q mkdir -p		$(DESTDIR)$(PREFIX)/man/man8
-#	$Q cp gpio.1		$(DESTDIR)$(PREFIX)/man/man8
+#	$Q cp gpio.1		$(DESTDIR)$(PREFIX)/man/man8/
 
 .PHONY:	install-deb
 install-deb:	gpio
 	$Q echo "[Install: deb]"
-	$Q install -m 0755 -d							~/wiringPi/debian-template/wiringPi/usr/bin
-	$Q install -m 0755 gpio							~/wiringPi/debian-template/wiringPi/usr/bin
-	$Q install -m 0755 -d							~/wiringPi/debian-template/wiringPi/man/man1
-	$Q install -m 0644 gpio.1						~/wiringPi/debian-template/wiringPi/man/man1
+	$Q install -m 0755 -d							$(CURDIR)/../debian-template/wiringPi/usr/bin
+	$Q install -m 0755 gpio							$(CURDIR)/../debian-template/wiringPi/usr/bin
+	$Q install -m 0755 -d							$(CURDIR)/../debian-template/wiringPi/man/man1
+	$Q install -m 0644 gpio.1						$(CURDIR)/../debian-template/wiringPi/man/man1
 
 .PHONY:	uninstall
 uninstall:
